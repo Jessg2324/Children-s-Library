@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magical Kids Library</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        header {
+            background-color: #2196f3;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .book-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .book-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .book-card img {
+            max-width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        #bookDetails {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .filter-buttons button {
+            margin: 0 10px;
+            padding: 10px 20px;
+            background-color: #2196f3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Magical Kids Library</h1>
+            <p>Discover Amazing Stories and Poems!</p>
+        </header>
+
+        <div class="filter-buttons">
+            <button onclick="filterBooks('All')">All Books</button>
+            <button onclick="filterBooks('Story')">Stories</button>
+            <button onclick="filterBooks('Poem')">Poems</button>
+        </div>
+
+        <div id="bookGrid" class="book-grid"></div>
+        
+        <div id="bookDetails"></div>
+    </div>
+
+    <script>
+        const books = [
+            {
+                title: "The Very Hungry Caterpillar",
+                author: "Eric Carle",
+                type: "Story",
+                image: "https://upload.wikimedia.org/wikipedia/en/thumb/d/df/The_Very_Hungry_Caterpillar.jpg/220px-The_Very_Hungry_Caterpillar.jpg",
+                description: "A classic tale about a caterpillar's journey of eating and transformation."
+            },
+            {
+                title: "Where the Wild Things Are",
+                author: "Maurice Sendak",
+                type: "Story",
+                image: "https://upload.wikimedia.org/wikipedia/en/thumb/0/0a/Where_the_Wild_Things_Are_%28book%29_cover.jpg/220px-Where_the_Wild_Things_Are_%28book%29_cover.jpg",
+                description: "An imaginative adventure of a young boy's magical journey."
+            },
+            {
+                title: "Goodnight Moon",
+                author: "Margaret Wise Brown",
+                type: "Story",
+                image: "https://upload.wikimedia.org/wikipedia/en/thumb/2/29/Goodnight_Moon.jpg/220px-Goodnight_Moon.jpg",
+                description: "A soothing bedtime story loved by generations of children."
+            },
+            {
+                title: "The Cat in the Hat",
+                author: "Dr. Seuss",
+                type: "Poem",
+                image: "https://upload.wikimedia.org/wikipedia/en/thumb/1/10/The_Cat_in_the_Hat.jpg/220px-The_Cat_in_the_Hat.jpg",
+                description: "A playful rhyming story about an unexpected visitor."
+            }
+        ];
+
+        function displayBooks(bookList) {
+            const bookGrid = document.getElementById('bookGrid');
+            bookGrid.innerHTML = '';
+            
+            bookList.forEach(book => {
+                const bookCard = document.createElement('div');
+                bookCard.classList.add('book-card');
+                bookCard.innerHTML = `
+                    <img src="${book.image}" alt="${book.title}">
+                    <h3>${book.title}</h3>
+                    <p>${book.author}</p>
+                    <p>${book.type}</p>
+                `;
+                bookCard.onclick = () => showBookDetails(book);
+                bookGrid.appendChild(bookCard);
+            });
+        }
+
+        function showBookDetails(book) {
+            const bookDetails = document.getElementById('bookDetails');
+            bookDetails.innerHTML = `
+                <h2>${book.title}</h2>
+                <img src="${book.image}" alt="${book.title}" style="max-width: 300px;">
+                <p><strong>Author:</strong> ${book.author}</p>
+                <p><strong>Type:</strong> ${book.type}</p>
+                <p>${book.description}</p>
+            `;
+        }
+
+        function filterBooks(type) {
+            if (type === 'All') {
+                displayBooks(books);
+            } else {
+                const filteredBooks = books.filter(book => book.type.includes(type));
+                displayBooks(filteredBooks);
+            }
+        }
+
+        // Initial display
+        displayBooks(books);
+    </script>
+</body>
+</html>
